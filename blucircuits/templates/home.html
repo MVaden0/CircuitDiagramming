@@ -3,145 +3,86 @@
 {% load static %}
 
 {% block content %}
-<!-- Parallax Video -->
-<video class="background-video" autoplay loop muted>
-  <source src="{% static 'video/horseracing.mp4' %}" type="video/mp4">
-</video>
-<section class="video-section">
-</section>
+<style>
+    .editor__container {
+        width: 100vw;
+        height: 100vh;
+        background-color: #fefefe;
+    }
 
-<!-- Menu -->
-<nav class="menu__nav">
-</nav>
-<div class="menu__button__container">
-    <button class="menu__button">
-        <svg xmlns="http://www.w3.org/2000/svg" width="46" height="36" viewBox="0 0 46 36">
-            <path class="toggle-button-top" stroke-linecap="round" stroke-width="6"/>
-            <path class="toggle-button-middle" stroke-linecap="round" stroke-width="6" d="M13 18 l 30 0"/>
-            <path class="toggle-button-bottom" stroke-linecap="round" stroke-width="6"/>
+    .editor__control__container {
+        background-color: #F2EBFF;
+        width: 155px;
+        height: 50px;
+        border-radius: 10px;
+        position: absolute;
+        top: calc(100vh - 100px);
+        left: calc(50vw - 72.5px);
+        display: flex;
+        align-items: center;
+        padding: 0 5px;
+        z-index: 997;
+        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    }
+
+    .editor__control__svg {
+        width: 155px;
+        height: 50px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        z-index: 998;
+    }
+
+    .editor__control__button {
+        width: 30px;
+        height: 30px;
+        padding: 0;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        z-index: 999;
+        margin: 0 5px;
+    }
+
+    .editor__control__button > svg {
+        width: 30px;
+        height: 30px;
+    }
+
+    .editor__control__button > svg > path {
+        fill: #6A43B1;
+        transition: .2s ease-in-out;
+    }
+
+    .editor__control__button:hover > svg > path {
+        fill: #3B2664;
+    }
+</style>
+<div class="editor__container">
+   
+    <!-- Editor Controls -->
+    <div class="editor__control__container">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 155 50" class="editor__control__svg">
+            <rect stroke="none" fill="#C8D1EE" x="5" y="5" width="40" height="40" rx="8" />
         </svg>
-    </button>
-</div>
-<div class="menu__background">
-</div>
-<div class="menu__container">
-    <div class="menu">
-        <a href="#" class="menu__link">About</a>
-        <a href="#" class="menu__link">Music</a>
-        <a href="#" class="menu__link">Shop</a>
-        <a href="#" class="menu__link">Contact</a>
-        <div class="menu__social-link__container">
-            <a class="menu__social-link" href="#">
-                {% include 'svg/instagram.svg.html' %}
-            </a>
-            <a class="menu__social-link" href="#">
-                {% include 'svg/spotify.svg.html' %}
-            </a>
-            <a class="menu__social-link" href="#">
-                {% include 'svg/apple-music.svg.html' %}
-            </a>
-        </div>
+        <button class="editor__control__button">
+            {% include 'svg/hand.svg.html' %}
+        </button>
+        <button class="editor__control__button">
+            {% include 'svg/text.svg.html' %}
+        </button>
+        <button class="editor__control__button">
+            {% include 'svg/cpu.svg.html' %}
+        </button>
+        <button class="editor__control__button">
+            {% include 'svg/lightning.svg.html' %}
+        </button>
+        
+        
     </div>
+
 </div>
-
-<section class="section-1">
-</section>
-<script>
-    // DOM elements
-    const button = document.querySelector('#test')
-    const button2 = document.querySelector('#test-2')
-
-    const menuContainer = document.querySelector('.menu__container')
-    const menuBackground = document.querySelector('.menu__background')
-    const menu = document.querySelector('.menu')
-    const menuButton = document.querySelector('.menu__button')
-
-    const topLine = document.querySelector(".toggle-button-top")
-    const middleLine = document.querySelector(".toggle-button-middle")
-    const bottomLine = document.querySelector(".toggle-button-bottom")
-
-    // state
-    let menuOpened = false
-
-    // menu button animation
-    const playOpenAnimation = () => {
-        topLine.classList.remove('toggle-button-top__close')
-        middleLine.classList.remove('toggle-button-middle__close')
-        bottomLine.classList.remove('toggle-button-bottom__close')
-    
-        topLine.classList.add('toggle-button-top__open')
-        middleLine.classList.add('toggle-button-middle__open')
-        bottomLine.classList.add('toggle-button-bottom__open')
-    }
-    
-    const playCloseAnimation = () => {
-        topLine.classList.remove('toggle-button-top__open')
-        middleLine.classList.remove('toggle-button-middle__open')
-        bottomLine.classList.remove('toggle-button-bottom__open')
-    
-        topLine.classList.add('toggle-button-top__close')
-        middleLine.classList.add('toggle-button-middle__close')
-        bottomLine.classList.add('toggle-button-bottom__close')
-    }
-
-    // menu functionality
-    const toggleMenu = () => {
-        if (menuOpened) {
-            // animate toggle button
-            playCloseAnimation()
-
-            // menu closing
-            menuContainer.classList.remove('menu__open')
-            menuContainer.classList.add('menu__close')
-
-            // fade out menu
-            menu.classList.remove('menu__open__fade-in')
-            menu.classList.add('menu__close__fade-out')
-
-            // fade out menu background after close complete
-            setTimeout(() => {
-                menuBackground.classList.remove('menu__background__fade-in')
-                menuBackground.classList.add('menu__background__fade-out')
-
-                // move menu background to bottom after fade out complete
-                setTimeout(() => {
-                    menuBackground.classList.remove('menu__background__top')
-                    menuBackground.classList.add('menu__background__bottom')
-                }, 300);
-            }, 300);
-
-            // alter state
-            menuOpened = false
-        } else {
-            // animate toggle button
-            playOpenAnimation()
-
-            // move menu background to top
-            menuBackground.classList.remove('menu__background__bottom')
-            menuBackground.classList.add('menu__background__top')
-
-            // menu background fading in
-            menuBackground.classList.remove('menu__background__fade-out')
-            menuBackground.classList.add('menu__background__fade-in')
-
-            // open menu after fade in complete
-            setTimeout(() => {
-                menuContainer.classList.remove('menu__close')
-                menuContainer.classList.add('menu__open')
-
-                // fade in menu
-                menu.classList.remove('menu__close__fade-out')
-                menu.classList.add('menu__open__fade-in')
-            }, 300)
-
-            // alter state
-            menuOpened = true
-        }
-    }
-
-    // menu toggle button
-    menuButton.addEventListener('click', () => {
-        toggleMenu()
-    })
-</script>
 {% endblock %}
