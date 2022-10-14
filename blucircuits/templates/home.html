@@ -12,7 +12,7 @@
 
     .editor__control__container {
         background-color: #F2EBFF;
-        width: 155px;
+        width: 200px;
         height: 50px;
         border-radius: 10px;
         position: absolute;
@@ -26,7 +26,7 @@
     }
 
     .editor__control__svg {
-        width: 155px;
+        width: 210px;
         height: 50px;
         position: absolute;
         top: 0;
@@ -37,14 +37,13 @@
     }
 
     .editor__control__button {
-        width: 30px;
+        width: 40px;
         height: 30px;
         padding: 0;
         border: none;
         background-color: transparent;
         cursor: pointer;
         z-index: 999;
-        margin: 0 5px;
     }
 
     .editor__control__button > svg {
@@ -65,24 +64,96 @@
    
     <!-- Editor Controls -->
     <div class="editor__control__container">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 155 50" class="editor__control__svg">
-            <rect stroke="none" fill="#C8D1EE" x="5" y="5" width="40" height="40" rx="8" />
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 50" class="editor__control__svg">
+            <rect id="button-bg" stroke="none" fill="#C8D1EE" x="5" y="5" width="40" height="40" rx="8" />
         </svg>
-        <button class="editor__control__button">
+        <button id="move-button" class="editor__control__button">
             {% include 'svg/hand.svg.html' %}
         </button>
-        <button class="editor__control__button">
+        <button id="text-button" class="editor__control__button">
             {% include 'svg/text.svg.html' %}
         </button>
-        <button class="editor__control__button">
+        <button id="components-button" class="editor__control__button">
+            {% include 'svg/activity.svg.html' %}
+        </button>
+        <button id="ic-button" class="editor__control__button">
             {% include 'svg/cpu.svg.html' %}
         </button>
-        <button class="editor__control__button">
+        <button id="compile-button" class="editor__control__button">
             {% include 'svg/lightning.svg.html' %}
-        </button>
-        
-        
+        </button> 
     </div>
-
 </div>
+<script>
+    // dom elements
+    const buttonBG = document.querySelector('#button-bg')
+    const moveButton = document.querySelector('#move-button')
+    const textButton = document.querySelector('#text-button')
+    const componentsButton = document.querySelector('#components-button')
+    const icButton = document.querySelector('#ic-button')
+    const compileButton = document.querySelector('#compile-button')
+
+    // control buttons 
+    const sliderSpeed = 50
+    let buttonPos = 0
+
+
+    moveButton.addEventListener('click', () => {
+        animateButtonSlider(0)
+        buttonPos = 0
+
+    })
+
+    textButton.addEventListener('click', () => {
+        animateButtonSlider(1)
+        buttonPos = 1
+
+    })
+
+    componentsButton.addEventListener('click', () => {
+        animateButtonSlider(2)
+        buttonPos = 2
+
+    })
+
+    icButton.addEventListener('click', () => {
+        animateButtonSlider(3)
+        buttonPos = 3
+
+    })
+
+    compileButton.addEventListener('click', () => {
+        animateButtonSlider(4)
+        buttonPos = 4
+
+    })
+
+    const animateButtonSlider = (newButtonPos) => {
+        const dx = 5
+        const t = 0.5
+
+        const prevPos = buttonPos * 40
+        const nextPos = newButtonPos * 40
+
+        const displacement = nextPos - prevPos
+
+        let i = 0
+
+        const animate = () => {
+            if (displacement < 0) {
+                i += dx
+                buttonBG.setAttribute('transform', `translate(${prevPos - i} 0)`)
+            } else {
+                i += dx
+                buttonBG.setAttribute('transform', `translate(${i + prevPos} 0)`)
+            }
+
+            if (i < Math.abs(displacement)) {
+                setTimeout(animate, 0)
+            }
+        }
+
+        animate()
+    }
+</script>
 {% endblock %}
